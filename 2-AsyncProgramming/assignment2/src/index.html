@@ -1,0 +1,49 @@
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>SWA1 - Assignment2</title>
+    <meta name="description" content="assignment2">
+</head>
+
+<body>
+    <button id="xhr">XMLHTTPRequest</button>
+    <button id="fetch">fetch</button>
+
+    <div id="Horsens">
+        <h1>Horsens</h1>
+    </div>
+
+    <div id="Aarhus">
+        <h1>Aarhus</h1>
+    </div>
+
+    <div id="Copenhagen">
+        <h1>Copenhagen</h1>
+    </div>
+
+    <script type="module">
+        import { XHRWeatherData, fetchWeatherData } from './weatherReportClient.js';
+
+        let btnXHR = document.getElementById('xhr')
+        let btnFetch = document.getElementById('fetch')
+
+        btnXHR.onclick = function() {
+            removeBtns()
+            XHRWeatherData()
+        }   
+
+        btnFetch.onclick = function() {
+            removeBtns()
+            fetchWeatherData()
+        }
+
+        function removeBtns() {
+            btnXHR.parentElement.removeChild(btnXHR)
+            btnFetch.parentElement.removeChild(btnFetch)
+        }
+    </script>
+</body>
+
+</html>
