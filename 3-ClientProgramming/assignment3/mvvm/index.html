@@ -1,0 +1,119 @@
+<html ng-app='weatherReport'>
+
+<head>
+    <title>Weather Report</title>
+    <style>
+        td {
+            width: 40px;
+            height: 40px;
+            border: 1px solid black;
+        }
+
+        table {
+            border: 1px solid black;
+            border-spacing: 0;
+        }
+    </style>
+    <script type='module'>
+        import 'https://ajax.googleapis.com/ajax/libs/angularjs/1.6.5/angular.min.js'
+        import './viewModel.js'
+    </script>
+</head>
+
+<body ng-controller="weatherReportController">
+    <div id='base'>
+        <h1>Weather Report</h1>
+
+        <label>Place:</label>
+        <select ng-change='forPlace()' ng-model='place'>
+            <option value=''>All</option>
+            <option value='Horsens'>Horsens</option>
+            <option value='Aarhus'>Aarhus</option>
+            <option value='Copenhagen'>Copenhagen</option>
+        </select>
+    </div>
+
+    <span>
+        <label>From: </label>
+        <input type="date" ng-change='forPeriod()' ng-model='fromDate'></input>
+        <input type="time" ng-change='forPeriod()' ng-model='fromTime'></input>
+    </span>
+    <span>
+        <label>To: </label>
+        <input type="date" ng-change='forPeriod()' ng-model='toDate'></input>
+        <input type="time" ng-change='forPeriod()' ng-model='toTime'></input>
+    </span>
+    <br>
+    <button ng-click='refresh()'>Refresh</button>
+
+
+    <h3>Weather Stats</h3>
+    <b>Minimum temperature: </b>{{minTemp}}<br>
+    <b>Maximum temperature: </b>{{minTemp}}<br>
+    <b>Total Precipitation: </b>{{totalPrecipitation}}<br>
+    <b>Average wind: </b>{{avgWind}}<br>
+    <b>Dominant wind direction temperature: </b>{{dominantWindDirection}}<br>
+    <b>Average cloud coverage: </b>{{avgCloudCoverage}}<br>
+
+    <h3>Weather Data</h3>
+    <table>
+        <thead>
+            <tr>
+                <td>Type</td>
+                <td>Type meta</td>
+                <td>Value</td>
+                <td>Unit</td>
+                <td>Time</td>
+                <td>Place</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="wd in model.weatherData">
+                <td>{{wd.type}}</td>
+                <td>{{wd.precipitation_type || wd.direction}}</td>
+                <td>{{wd.value}}</td>
+                <td>{{wd.unit}}</td>
+                <td>{{wd.time}}</td>
+                <td>{{wd.place}}</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td><input placeholder='type' ng-model='type'></input></td>
+                <td><input placeholder='type meta' ng-model='typeMeta'></input></td>
+                <td><input placeholder='value' ng-model='value'></input></td>
+                <td><input placeholder='unit' ng-model='unit'></input></td>
+                <td><input placeholder='time' ng-model='time'></input></td>
+                <td><input placeholder='place' ng-model='place'></input></td>
+                <td><button ng-click='saveWD()'>Save</button></td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <h3>Weather Forecast</h3>
+    <table>
+        <thead>
+            <tr>
+                <td>Type</td>
+                <td>Type meta</td>
+                <td>Value</td>
+                <td>Unit</td>
+                <td>Time</td>
+                <td>Place</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="wf in model.weatherForecast">
+                <td>{{wf.type}}</td>
+                <td>{{wf.precipitation_types || wf.directions}}</td>
+                <td>{{wf.from}} - {{wf.to}}</td>
+                <td>{{wf.unit}}</td>
+                <td>{{wf.time}}</td>
+                <td>{{wf.place}}</td>
+            </tr>
+        </tbody>
+    </table>
+    </div>
+</body>
+
+</html>

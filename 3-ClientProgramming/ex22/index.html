@@ -1,0 +1,22 @@
+<html>
+    <head>
+        <title>Exercise 22</title>
+        <script type="module">
+            import model from './model.js'
+            import view from './view.js'
+            import dispatcher from './dispatcher.js'
+            import store from './store.js'
+
+            window.init = () => {
+                let theModel = model('Hello World') 
+                let theDispatcher  
+                const {view: theView, renderer} = view(window, () => theDispatcher)
+                const theStore = store(theModel, theView, renderer)
+                theDispatcher = dispatcher(theStore)             
+                renderer(theView(theModel))
+            }
+        </script>
+    </head>
+    <body onload="init()">
+    </body>
+</html>
