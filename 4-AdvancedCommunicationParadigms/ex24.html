@@ -1,0 +1,38 @@
+<html>
+
+<head>
+  <script type="module">
+    import { fromEvent } from 'https://dev.jspm.io/rxjs@6/_esm2015';
+    import { map, filter, scan } from 'https://dev.jspm.io/rxjs@6/_esm2015/operators';
+
+    const init = () => {
+      const input = document.querySelector('input')
+      const button = document.querySelector('button')
+      const label = document.querySelector('label')
+
+      const log = x => { console.log(x); return x }
+      const text = () => input.value
+      const even = x => x % 2 == 0
+
+
+      fromEvent(button, 'click')
+        .pipe(map(text))
+        .pipe(map(log))
+        .pipe(map((x) => {return parseInt(x)}))
+        .pipe(filter((x) => !!x))
+        .pipe(filter(even))
+        .pipe(scan((acc, val) => acc + val, 0))
+        .subscribe(sum => label.innerHTML = sum)
+    }
+    window.init = init
+  </script>
+</head>
+
+<body onload="init()">
+  <input>
+  <button>Add</button>
+  <br>
+  Sum of the odd numbers: <label></label>
+</body>
+
+</html>

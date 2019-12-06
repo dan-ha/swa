@@ -1,0 +1,35 @@
+<html>
+
+<head>
+  <script type="module">
+    import { ajax } from 'https://dev.jspm.io/rxjs@6/_esm2015/ajax';
+    import { interval, from  } from 'https://dev.jspm.io/rxjs@6/_esm2015';
+    import { concatMap, map, delay } from 'https://dev.jspm.io/rxjs@6/_esm2015/operators';
+
+    const INTERVAL_MS = 3000
+
+    const log = x => { console.log(x); return x }
+    const poll_url = url => interval(INTERVAL_MS).pipe(concatMap(() => ajax.getJSON(url)))
+
+    const init = async () => {
+      let date = new Date()
+
+      let resp = await fetch('http://localhost:8080/warnings').then(res => res.json())
+      let warnings = resp.warnings
+      warnings.map(log)
+
+      console.log('Updates: ')
+      poll_url(`http://localhost:8080/warnings/since/${date.toISOString()}`)
+      .subscribe(log)
+
+    }
+    window.init = init
+  </script>
+</head>
+
+<body onload="init()">
+  <h1>Weather Warnings - reactive programming</h1>
+  <p>See the console</p>
+</body>
+
+</html>
